@@ -1,0 +1,136 @@
+-- RC7 Executor with 2007-Style UI and Krystal Team "Wolf" Button
+local ScreenGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local TitleBar = Instance.new("TextLabel")
+local CloseBtn = Instance.new("TextButton")
+local ScriptBox = Instance.new("TextBox")
+local ExecuteBtn = Instance.new("TextButton")
+local WolfBtn = Instance.new("TextButton")
+
+local dragging, dragInput, dragStart, startPos
+
+ScreenGui.Name = "RC7_2007"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Main window (Windows 2000/XP-style gray)
+Main.Name = "Main"
+Main.Parent = ScreenGui
+Main.BackgroundColor3 = Color3.fromRGB(212, 208, 200)
+Main.Position = UDim2.new(0.35, 0, 0.35, 0)
+Main.Size = UDim2.new(0, 380, 0, 250)
+Main.BorderSizePixel = 1
+
+-- Title Bar (Classic Blue)
+TitleBar.Name = "TitleBar"
+TitleBar.Parent = Main
+TitleBar.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+TitleBar.Size = UDim2.new(1, 0, 0, 22)
+TitleBar.Font = Enum.Font.Legacy
+TitleBar.Text = "RC7 Executor"
+TitleBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleBar.TextSize = 14
+TitleBar.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Close Button
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Parent = TitleBar
+CloseBtn.BackgroundColor3 = Color3.fromRGB(192, 0, 0)
+CloseBtn.Position = UDim2.new(1, -22, 0, 0)
+CloseBtn.Size = UDim2.new(0, 22, 1, 0)
+CloseBtn.Text = "X"
+CloseBtn.Font = Enum.Font.Legacy
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 14
+
+-- Script Box
+ScriptBox.Name = "ScriptBox"
+ScriptBox.Parent = Main
+ScriptBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScriptBox.Position = UDim2.new(0.03, 0, 0.12, 0)
+ScriptBox.Size = UDim2.new(0.94, 0, 0.55, 0)
+ScriptBox.Font = Enum.Font.Code
+ScriptBox.Text = "-- Type your script here"
+ScriptBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+ScriptBox.TextSize = 14
+ScriptBox.TextWrapped = true
+ScriptBox.TextXAlignment = Enum.TextXAlignment.Left
+ScriptBox.TextYAlignment = Enum.TextYAlignment.Top
+ScriptBox.MultiLine = true
+ScriptBox.ClearTextOnFocus = false
+
+-- Execute Button
+ExecuteBtn.Name = "ExecuteBtn"
+ExecuteBtn.Parent = Main
+ExecuteBtn.BackgroundColor3 = Color3.fromRGB(236, 233, 216)
+ExecuteBtn.Position = UDim2.new(0.05, 0, 0.73, 0)
+ExecuteBtn.Size = UDim2.new(0.4, 0, 0.12, 0)
+ExecuteBtn.Text = "Execute"
+ExecuteBtn.Font = Enum.Font.Legacy
+ExecuteBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+ExecuteBtn.TextSize = 14
+
+-- Wolf Button (Krystal Team)
+WolfBtn.Name = "WolfBtn"
+WolfBtn.Parent = Main
+WolfBtn.BackgroundColor3 = Color3.fromRGB(236, 233, 216)
+WolfBtn.Position = UDim2.new(0.55, 0, 0.73, 0)
+WolfBtn.Size = UDim2.new(0.4, 0, 0.12, 0)
+WolfBtn.Text = "Wolf"
+WolfBtn.Font = Enum.Font.Legacy
+WolfBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+WolfBtn.TextSize = 14
+
+-- Function: Execute typed script
+ExecuteBtn.MouseButton1Click:Connect(function()
+    local source = ScriptBox.Text
+    local success, err = pcall(function()
+        loadstring(source)()
+    end)
+    if not success then
+        warn("Error:", err)
+    end
+end)
+
+-- Function: Wolf loads Krystal Team
+WolfBtn.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:GetObjects("rbxassetid://364364477")[1].Source)()
+    end)
+    if not success then
+        warn("Wolf Script Failed:", err)
+    end
+end)
+
+-- Close button
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Drag window
+TitleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = Main.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+TitleBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+                                  startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
