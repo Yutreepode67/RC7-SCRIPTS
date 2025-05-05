@@ -1,4 +1,22 @@
--- RC7 Executor with 2007-Style UI and Krystal Team "Wolf" Button
+-- On-screen loading message
+local message = Instance.new("TextLabel")
+message.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+message.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+message.BackgroundTransparency = 0.3
+message.Size = UDim2.new(0.3, 0, 0.05, 0)
+message.Position = UDim2.new(0.35, 0, 0.05, 0)
+message.Font = Enum.Font.Legacy
+message.TextSize = 18
+message.TextColor3 = Color3.fromRGB(255, 255, 255)
+message.Text = "Loading FE Bypass..."
+message.ZIndex = 10
+
+task.wait(1.5)
+message.Text = "FE Bypass Loaded"
+task.wait(2)
+message:Destroy()
+
+-- RC7 Executor UI
 local ScreenGui = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
 local TitleBar = Instance.new("TextLabel")
@@ -50,7 +68,7 @@ ScriptBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ScriptBox.Position = UDim2.new(0.03, 0, 0.12, 0)
 ScriptBox.Size = UDim2.new(0.94, 0, 0.55, 0)
 ScriptBox.Font = Enum.Font.Code
-ScriptBox.Text = "-- Type your script here"
+ScriptBox.Text = "-- RC7 Loaded!"
 ScriptBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 ScriptBox.TextSize = 14
 ScriptBox.TextWrapped = true
@@ -58,6 +76,15 @@ ScriptBox.TextXAlignment = Enum.TextXAlignment.Left
 ScriptBox.TextYAlignment = Enum.TextYAlignment.Top
 ScriptBox.MultiLine = true
 ScriptBox.ClearTextOnFocus = false
+
+-- Clear default text on focus
+local placeholderCleared = false
+ScriptBox.Focused:Connect(function()
+	if not placeholderCleared and ScriptBox.Text == "-- RC7 Loaded!" then
+		ScriptBox.Text = ""
+		placeholderCleared = true
+	end
+end)
 
 -- Execute Button
 ExecuteBtn.Name = "ExecuteBtn"
@@ -81,56 +108,56 @@ WolfBtn.Font = Enum.Font.Legacy
 WolfBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
 WolfBtn.TextSize = 14
 
--- Function: Execute typed script
+-- Execute typed script
 ExecuteBtn.MouseButton1Click:Connect(function()
-    local source = ScriptBox.Text
-    local success, err = pcall(function()
-        loadstring(source)()
-    end)
-    if not success then
-        warn("Error:", err)
-    end
+	local source = ScriptBox.Text
+	local success, err = pcall(function()
+		loadstring(source)()
+	end)
+	if not success then
+		warn("Error:", err)
+	end
 end)
 
--- Function: Wolf loads Krystal Team
+-- Wolf loads Krystal Team
 WolfBtn.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:GetObjects("rbxassetid://364364477")[1].Source)()
-    end)
-    if not success then
-        warn("Wolf Script Failed:", err)
-    end
+	local success, err = pcall(function()
+		loadstring(game:GetObjects("rbxassetid://364364477")[1].Source)()
+	end)
+	if not success then
+		warn("Wolf Script Failed:", err)
+	end
 end)
 
 -- Close button
 CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
+	ScreenGui:Destroy()
 end)
 
 -- Drag window
 TitleBar.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = Main.Position
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = Main.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
 end)
 
 TitleBar.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
 end)
 
 game:GetService("UserInputService").InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        local delta = input.Position - dragStart
-        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
-                                  startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
+	if input == dragInput and dragging then
+		local delta = input.Position - dragStart
+		Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+			startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
 end)
