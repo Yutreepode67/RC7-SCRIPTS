@@ -1,0 +1,94 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local torso = character:FindFirstChild("LowerTorso") or character:FindFirstChild("Torso")  -- Ð”Ð»Ñ R15 Ð¸Ð»Ð¸ R6
+local upperTorso = character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso")  -- Ð”Ð»Ñ Ð²ÐµÑ€Ñ…Ð½ÐµÐ¹ Ñ‡Ð°ÑÑ‚Ð¸
+
+-- Ð£Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð¾Ð´ÐµÐ¶Ð´Ñƒ
+local function removeClothing()
+    for _, obj in pairs(character:GetChildren()) do
+        if obj:IsA("Shirt") or obj:IsA("Pants") or obj:IsA("TShirt") or obj:IsA("ShirtGraphic") then
+            obj:Destroy()
+        end
+    end
+end
+
+if torso and upperTorso then
+    -- Ð£Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð¾Ð´ÐµÐ¶Ð´Ñƒ
+    removeClothing()
+
+    -- Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð¿ÐµÑ€Ð²ÑƒÑŽ "Ð¿Ð¾Ð¿ÐºÑƒ"
+    local leftButt = Instance.new("Part")
+    leftButt.Shape = Enum.PartType.Ball
+    leftButt.Size = Vector3.new(2, 2, 2)  -- Ð Ð°Ð·Ð¼ÐµÑ€
+    leftButt.Color = torso.Color  -- Ð¦Ð²ÐµÑ‚ Ñ‚ÐµÐ»Ð°
+    leftButt.Material = torso.Material
+    leftButt.CanCollide = false
+    leftButt.Anchored = false
+
+    -- ÐŸÑ€Ð¸Ð²ÑÐ·Ñ‹Ð²Ð°ÐµÐ¼ Ðº Ñ‚Ð¾Ñ€ÑÑƒ
+    local weld1 = Instance.new("Weld")
+    weld1.Part0 = torso
+    weld1.Part1 = leftButt
+    weld1.C0 = CFrame.new(-0.6, -1, 0.7)  -- Ð Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ ÑÐ»ÐµÐ²Ð° ÑÐ½Ð¸Ð·Ñƒ
+
+    leftButt.Parent = character
+    weld1.Parent = leftButt
+
+    -- Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð²Ñ‚Ð¾Ñ€ÑƒÑŽ "Ð¿Ð¾Ð¿ÐºÑƒ"
+    local rightButt = Instance.new("Part")
+    rightButt.Shape = Enum.PartType.Ball
+    rightButt.Size = Vector3.new(2, 2, 2)  -- Ð Ð°Ð·Ð¼ÐµÑ€
+    rightButt.Color =
+torso.Color  -- Ð¦Ð²ÐµÑ‚ Ñ‚ÐµÐ»Ð°
+    rightButt.Material = torso.Material
+    rightButt.CanCollide = false
+    rightButt.Anchored = false
+
+    -- ÐŸÑ€Ð¸Ð²ÑÐ·Ñ‹Ð²Ð°ÐµÐ¼ Ðº Ñ‚Ð¾Ñ€ÑÑƒ
+    local weld2 = Instance.new("Weld")
+    weld2.Part0 = torso
+    weld2.Part1 = rightButt
+    weld2.C0 = CFrame.new(0.6, -1, 0.7)  -- Ð Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¿Ñ€Ð°Ð²Ð° ÑÐ½Ð¸Ð·Ñƒ
+
+    rightButt.Parent = character
+    weld2.Parent = rightButt
+
+    -- Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ "Ð³Ñ€ÑƒÐ´ÑŒ" (Ð»ÐµÐ²Ð°Ñ Ð¸ Ð¿Ñ€Ð°Ð²Ð°Ñ)
+    for i = -1, 1, 2 do  -- Ð”Ð²Ðµ ÑÑ„ÐµÑ€Ñ‹ (Ð»ÐµÐ²Ð°Ñ Ð¸ Ð¿Ñ€Ð°Ð²Ð°Ñ)
+        local sphere = Instance.new("Part")
+        sphere.Shape = Enum.PartType.Ball
+        sphere.Size = Vector3.new(2, 2, 2)  -- Ð Ð°Ð·Ð¼ÐµÑ€
+        sphere.Color = upperTorso.Color  -- Ð¦Ð²ÐµÑ‚ Ñ‚ÐµÐ»Ð°
+        sphere.Material = upperTorso.Material
+        sphere.CanCollide = false
+        sphere.Anchored = false
+
+        -- ÐŸÑ€Ð¸Ð²ÑÐ·Ñ‹Ð²Ð°ÐµÐ¼ Ðº Ñ‚Ð¾Ñ€ÑÑƒ
+        local weld = Instance.new("Weld")
+        weld.Part0 = upperTorso
+        weld.Part1 = sphere
+        weld.C0 = CFrame.new(i * 0.5, 0.1, -1)  -- Ð Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ
+
+        sphere.Parent = character
+        weld.Parent = sphere
+
+        -- Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ "ÑÐ¾ÑÐ¾Ñ‡ÐµÐº" (Ð¼Ð°Ð»ÐµÐ½ÑŒÐºÐ°Ñ ÑÑ„ÐµÑ€Ð°)
+        local nipple = Instance.new("Part")
+        nipple.Shape = Enum.PartType.Ball
+        nipple.Size = Vector3.new(0.4, 0.4, 0.4)  -- ÐœÐ°Ð»ÐµÐ½ÑŒÐºÐ¸Ð¹ Ñ€Ð°Ð·Ð¼ÐµÑ€
+        nipple.Color = Color3.fromRGB(255, 150, 150)  -- Ð Ð¾Ð·Ð¾Ð²Ð°Ñ‚Ñ‹Ð¹ Ñ†Ð²ÐµÑ‚
+        nipple.Material = Enum.Material.SmoothPlastic
+        nipple.CanCollide = false
+        nipple.Anchored = false
+
+        local nippleWeld = Instance.new("Weld")
+        nippleWeld.Part0 = sphere
+        nippleWeld.Part1 = nipple
+        nippleWeld.C0 = CFrame.new(0, 0, -1)  -- Ð¡Ð¼ÐµÑ‰Ð°ÐµÐ¼ Ð½ÐµÐ¼Ð½Ð¾Ð³Ð¾ Ð²Ð¿ÐµÑ€ÐµÐ´
+
+        nipple.Parent = character
+        nippleWeld.Parent = nipple
+    end
+else
+    warn("Ð¢Ð¾Ñ€Ñ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½!")
+end
