@@ -1,0 +1,91 @@
+-- Create ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "LigmaLiteUI"
+gui.ResetOnSpawn = false
+gui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create draggable Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 300)
+frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- Add UICorner to frame
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 5)
+UICorner.Parent = frame
+
+-- Create TextBox for code input
+local inputBox = Instance.new("TextBox")
+inputBox.Size = UDim2.new(1, -20, 0.7, -20)
+inputBox.Position = UDim2.new(0, 10, 0, 10)
+inputBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+inputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+inputBox.Text = "-- Type your code here"
+inputBox.ClearTextOnFocus = false
+inputBox.MultiLine = true
+inputBox.TextWrapped = true
+inputBox.TextScaled = true
+inputBox.Font = Enum.Font.Code
+inputBox.TextSize = 14
+inputBox.Parent = frame
+
+-- Create Execute Button
+local executeButton = Instance.new("TextButton")
+executeButton.Size = UDim2.new(0.48, -10, 0.2, -10)
+executeButton.Position = UDim2.new(0, 10, 0.75, 0)
+executeButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+executeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+executeButton.Text = "Execute"
+executeButton.Font = Enum.Font.SourceSansBold
+executeButton.TextSize = 18
+executeButton.Parent = frame
+
+-- Create Clear Button
+local clearButton = Instance.new("TextButton")
+clearButton.Size = UDim2.new(0.48, -10, 0.2, -10)
+clearButton.Position = UDim2.new(0.52, 10, 0.75, 0)
+clearButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+clearButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+clearButton.Text = "Clear"
+clearButton.Font = Enum.Font.SourceSansBold
+clearButton.TextSize = 18
+clearButton.Parent = frame
+
+-- Create Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0.1, 0, 0.1, 0)
+closeButton.Position = UDim2.new(1, -20, 0, 10)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Text = "X"
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextSize = 18
+closeButton.Parent = frame
+
+-- Function to execute code
+local function executeCode()
+    local code = inputBox.Text
+    local success, errorMessage = pcall(function()
+        loadstring(code)()
+    end)
+    if not success then
+        warn("Error executing code: " .. errorMessage)
+    end
+end
+
+-- Function to clear TextBox
+local function clearText()
+    inputBox.Text = ""
+end
+
+-- Connect buttons to functions
+executeButton.MouseButton1Click:Connect(executeCode)
+clearButton.MouseButton1Click:Connect(clearText)
+closeButton.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
