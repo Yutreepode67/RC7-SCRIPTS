@@ -7,7 +7,7 @@ lel.Size = UDim2.new(0.0, 100, 0.0, 100)
 lel.Position = UDim2.new(-0.127000004, 0, 0.407999992, 0)
 lel.BackgroundColor3 = Color3.new(50, 205, 50)
 lel.ImageColor3 = Color3.new(1, 1, 1)
-lel.Image = "rbxassetid://128458791597363"
+lel.Image = "rbxassetid://139443800427910"
 lel.ImageTransparency = 0
 lel.Parent = gui
 
