@@ -1,0 +1,45 @@
+local gui = Instance.new("ScreenGui")
+gui.Name = "executor"
+gui.Parent = game.CoreGui
+
+local lel = Instance.new("ImageLabel")
+lel.Size = UDim2.new(0.0, 100, 0.0, 100)
+lel.Position = UDim2.new(-0.127000004, 0, 0.407999992, 0)
+lel.BackgroundColor3 = Color3.new(50, 205, 50)
+lel.ImageColor3 = Color3.new(1, 1, 1)
+lel.Image = "rbxassetid://128458791597363"
+lel.ImageTransparency = 0
+lel.Parent = gui
+
+lel.BackgroundTransparency = 1 
+
+local Ring = Instance.new("ImageLabel")
+Ring.Size = UDim2.new(1.0, 0, 1.0, 0)
+Ring.Position = UDim2.new(0.0, 0, 0.0, 0)
+Ring.BackgroundColor3 = Color3.new(0, 0, 0)
+Ring.ImageColor3 = Color3.new(0, 0, 0)
+Ring.Image = "rbxassetid://7102118272"
+Ring.ImageTransparency = 0
+Ring.Parent = lel
+
+Ring.BackgroundTransparency = 1
+
+local Orbit = Instance.new("ImageLabel")
+Orbit.Size = UDim2.new(0.0, 21, 0.0, 21)
+Orbit.Position = UDim2.new(0.0, 0, 0.0, 10)
+Orbit.BackgroundColor3 = Color3.new(0, 0, 0)
+Orbit.ImageColor3 = Color3.new(1, 1, 1)
+Orbit.Image = "rbxassetid://128458791597363"
+Orbit.ImageTransparency = 0
+Orbit.Parent = Ring
+
+Orbit.BackgroundTransparency = 1
+
+lel:TweenPosition(UDim2.new(0.458, 0, 0.408, 0), "Out", "Linear", 0.4, false)
+wait(3)
+lel:TweenPosition(UDim2.new(0.0, 9, 0.0, 190), "Out", "Sine", 0.7, false)
+
+while wait() do
+Ring.Rotation = Ring.Rotation + 1
+Orbit.Rotation = Orbit.Rotation - 1
+end
